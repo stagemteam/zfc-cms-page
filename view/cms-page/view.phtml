@@ -1,0 +1,13 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain($this->current('module')) ?>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="content info-page">
+                <h1><?=$this->translate($this->cmsPage->getTitle());?>
+                <div class="guide">
+                    <?php echo $this->cmsPage->getContent(); ?>
+                </div>
+            </div>
+        </div>
+</section>
+

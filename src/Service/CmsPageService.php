@@ -66,4 +66,15 @@ class CmsPageService extends DomainServiceAbstract
 
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCmsPageByLangAndUrl($url, $lang) {
+
+        $result = $this->getRepository()->getCmsPageByLangAndUrl($url, $lang)->getQuery()->getResult();
+
+        return $result[0];
+
+    }
+
 }

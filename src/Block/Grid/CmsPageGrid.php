@@ -41,7 +41,7 @@ class CmsPageGrid extends AbstractGrid
 
         $this->add([
             'name' => 'Select',
-            'construct' => ['pageUrl', 'cms_page'],
+            'construct' => ['title', 'cms_page'],
             'label' => 'Name',
             'identity' => false,
             'width' => 3,

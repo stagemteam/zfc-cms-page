@@ -13,13 +13,29 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Fig\Http\Message\RequestMethodInterface;
+use Stagem\ZfcCmsPage\Service\CmsPageService;
 use Zend\View\Model\ViewModel;
 
 class ViewAction implements MiddlewareInterface, RequestMethodInterface
 {
+    /** @var CmsPageService */
+    protected $cmsPageService;
+
+    public function __construct(CmsPageService $cmsPageService)
+    {
+        $this->cmsPageService = $cmsPageService;
+    }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $view = new ViewModel([]);
+        $lang = $request->getAttribute('langObject');
+        $url = $request->getAttribute('more');
+        $cmsPage = $this->cmsPageService->getCmsPageByLangAndUrl($url, $lang);
+
+        $view = new ViewModel([
+            'cmsPage' => $cmsPage,
+        ]);
+
         return $handler->handle($request->withAttribute(ViewModel::class, $view));
 
     }

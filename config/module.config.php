@@ -6,7 +6,7 @@ return [
 
     'templates' =>  [
         'paths' => [
-            'content'    => [__DIR__ . '/../view/question'],
+            'cms-page'    => [__DIR__ . '/../view/cms-page'],
             'admin-cms-page'  => [__DIR__ . '/../view/admin/cms-page'],
         ],
     ],

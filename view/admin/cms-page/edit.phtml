@@ -75,14 +75,6 @@ foreach ($cmsBlockFieldset->getFieldsets() as $fieldset ){
                     <?= $this->formElement($fieldset->get('pageUrl')); ?>
                 </div>
                 <div class="col-xs-12">
-                    <label><?= $fieldset->get('metaDescription')->getLabel() ?></label>
-                    <?= $this->formElement($fieldset->get('metaDescription')); ?>
-                </div>
-                <div class="col-xs-12">
-                    <label><?= $fieldset->get('metaKeywords')->getLabel() ?></label>
-                    <?= $this->formElement($fieldset->get('metaKeywords')); ?>
-                </div>
-                <div class="col-xs-12">
                     <label><?= $fieldset->get('content')->getLabel() ?></label>
                     <?= $this->formElement($fieldset->get('content')); ?>
                 </div>

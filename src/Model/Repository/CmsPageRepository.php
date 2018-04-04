@@ -54,4 +54,23 @@ class CmsPageRepository extends \Doctrine\ORM\EntityRepository
         return $qb;
     }
 
+    /**
+     * @param $url
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getCmsPageByLangAndUrl($url, $lang) {
+        $qb = $this->getCmsPages();
+
+        $qb->where(
+            $qb->expr()->andX(
+                $qb->expr()->eq($this->_alias . '.pageUrl', '?1'),
+                $qb->expr()->eq($this->_alias . '.lang', '?2')
+            )
+        );
+
+        $qb->setParameters([1 => $url, 2 => $lang]);
+
+        return $qb;
+    }
+
 }
