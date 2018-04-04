@@ -1,0 +1,100 @@
+<?php
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2018 Serhii Popov
+ * This source file is subject to The MIT License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/MIT
+ *
+ * @category Popov
+ * @package Popov_<package>
+ * @author Serhii Popov <popow.serhii@gmail.com>
+ * @license https://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
+$form = $this->vars('form');
+$form->setAttribute('action', $this->url('admin/default', [
+    'resource' => $this->current('resource'),
+    'action' => $this->current('action'),
+    //'id' => $form->getObject()->getId(),
+    'lang' => $this->current('request')->getAttribute('lang'),
+]));
+$form->prepare();
+$cmsBlockFieldset = $form->get('cmsPages');
+
+?>
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=5n8uhc6lpsuu8q2ewotgza7nzx5j0osku90zlnwojxmg9296"></script>
+<script>tinymce.init(
+        {
+            selector: 'textarea',
+            height: 'auto'
+        });
+</script>
+
+<?= $this->form()->openTag($form) ?>
+<div class="col-xs-12"> <!-- required for floating -->
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs tabs-left">
+        <?php $langs = $this->lang()->getAllLangs(); ?>
+        <?php $i = 0; ?>
+        <?php foreach ($langs as $lang): ?>
+            <li class="<?php  echo $i == 0 ? 'active' : '' ?>"><a href="#lang-<?=$i;?>" data-toggle="tab"><?= $lang->getName();?></a></li>
+            <?php $i++; ?>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<?php
+/*
+foreach ($cmsBlockFieldset->getTargetElement()->getElements() as $element) {
+    echo $this->formRow($cmsBlockFieldset->getTargetElement()->getElements()['title']);
+
+}
+
+foreach ($cmsBlockFieldset->getFieldsets() as $fieldset ){
+    \Zend\Debug\Debug::dump($fieldset->get('title')); die();
+}
+
+\Zend\Debug\Debug::dump(get_class_methods($cmsBlockFieldset)); die();
+
+*/ ?>
+
+<div class="col-xs-9">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <?php $i = 0; ?>
+        <?php foreach ($cmsBlockFieldset->getFieldsets() as $fieldset): ?>
+            <div class="tab-pane <?php  echo $i == 0 ? 'active' : '' ?>" id="lang-<?=$i;?>">
+                <div class="col-xs-12">
+                    <label><?= $fieldset->get('title')->getLabel() ?></label>
+                    <?= $this->formElement($fieldset->get('title')); ?>
+                </div>
+                <div class="col-xs-12">
+                    <label><?= $fieldset->get('pageUrl')->getLabel() ?></label>
+                    <?= $this->formElement($fieldset->get('pageUrl')); ?>
+                </div>
+                <div class="col-xs-12">
+                    <label><?= $fieldset->get('metaDescription')->getLabel() ?></label>
+                    <?= $this->formElement($fieldset->get('metaDescription')); ?>
+                </div>
+                <div class="col-xs-12">
+                    <label><?= $fieldset->get('metaKeywords')->getLabel() ?></label>
+                    <?= $this->formElement($fieldset->get('metaKeywords')); ?>
+                </div>
+                <div class="col-xs-12">
+                    <label><?= $fieldset->get('content')->getLabel() ?></label>
+                    <?= $this->formElement($fieldset->get('content')); ?>
+                </div>
+                <div class="col-xs-12">
+                    <label><?= $fieldset->get('lang')->getLabel() ?></label>
+                    <?= $this->formElement($fieldset->get('lang')); ?>
+                </div>
+            </div>
+            <?php $i++; ?>
+        <?php endforeach; ?>
+        <div class="col-xs-12">
+            <?= $this->formElement($form->get('submit')) ?>
+        </div>
+    </div>
+</div>
