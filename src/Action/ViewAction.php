@@ -14,6 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Stagem\ZfcCmsPage\Service\CmsPageService;
+use Stagem\ZfcLang\LangHelper;
 use Zend\View\Model\ViewModel;
 
 class ViewAction implements MiddlewareInterface, RequestMethodInterface
@@ -21,14 +22,18 @@ class ViewAction implements MiddlewareInterface, RequestMethodInterface
     /** @var CmsPageService */
     protected $cmsPageService;
 
-    public function __construct(CmsPageService $cmsPageService)
+    /** @var LangHelper */
+    protected $langHelper;
+
+    public function __construct(CmsPageService $cmsPageService, LangHelper $langHelper)
     {
         $this->cmsPageService = $cmsPageService;
+        $this->langHelper = $langHelper;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $lang = $request->getAttribute('langObject');
+        $lang = $this->langHelper->getCurrentLang();
         $url = $request->getAttribute('more');
         $cmsPage = $this->cmsPageService->getCmsPageByLangAndUrl($url, $lang);
 

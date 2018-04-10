@@ -11,6 +11,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Fig\Http\Message\RequestMethodInterface;
 use Stagem\ZfcCmsPage\Block\Grid\CmsPageGrid;
 use Stagem\ZfcCmsPage\Service\CmsPageService;
+use Stagem\ZfcLang\LangHelper;
 use Zend\View\Model\ViewModel;
 
 class IndexAction implements MiddlewareInterface, RequestMethodInterface
@@ -25,20 +26,24 @@ class IndexAction implements MiddlewareInterface, RequestMethodInterface
      */
     protected $currentHelper;
 
+    /** @var LangHelper */
+    protected $langHelper;
+
     protected $cmsPageGrid;
 
     protected $config;
 
-    public function __construct(CmsPageService $cmsPageService, CmsPageGrid $cmsPageGrid, CurrentHelper $currentHelper/*, array $config*/)
+    public function __construct(CmsPageService $cmsPageService, CmsPageGrid $cmsPageGrid, LangHelper $langHelper, CurrentHelper $currentHelper/*, array $config*/)
     {
         $this->cmsPageService = $cmsPageService;
         $this->cmsPageGrid = $cmsPageGrid;
         $this->currentHelper = $currentHelper;
+        $this->langHelper = $langHelper;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $lang = $request->getAttribute('langObject');
+        $lang = $this->langHelper->getCurrentLang();
         $cmsPages = $this->cmsPageService->getCmsPagesByLang($lang);
 
         $this->cmsPageGrid->init();
@@ -50,4 +55,3 @@ class IndexAction implements MiddlewareInterface, RequestMethodInterface
         return $handler->handle($request->withAttribute(ViewModel::class, $response));
     }
 }
-
