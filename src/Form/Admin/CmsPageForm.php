@@ -18,7 +18,7 @@ class CmsPageForm extends Form implements TranslatorAwareInterface
             'options' => [
                 'use_as_base_fieldset' => true,
                 'label' => $this->translate('Cms Page'),
-                'count' => 2,
+                //'count' => 2,
                 'should_create_template' => true,
                 'allow_add' => true,
                 'allow_remove' => true,
